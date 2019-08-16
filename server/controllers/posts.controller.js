@@ -3,12 +3,12 @@ var {User} = require('./../models/user');
 const {ObjectID} = require('mongodb');
 
 function fposts(req, res) {
-    var id = req.params.id;
+    var id = req.query.loggedid;
 
     User.findById(id).then((loggedUser) => {
         var following = loggedUser.following;
 
-        var posts = [];
+        var posts;
 
         Post.find({
             userId: {$in: following}
@@ -16,7 +16,7 @@ function fposts(req, res) {
                 userposts.sort(function(a, b) {
                 return b.created-a.created;
             });
-            posts.push(userposts);
+            posts = userposts;
 
             res.send({posts});
         });
@@ -41,7 +41,7 @@ function newpost(req, res) {
 }
 
 function getPost(req, res) {
-    var id = req.params.id;
+    var id = req.query.id;
 
     if (!ObjectID.isValid(id)) {
         return res.status(404).send();
@@ -59,8 +59,8 @@ function getPost(req, res) {
 }
 
 function comment(req, res) {
-    var postid = req.params.post;
-    var loggedid = req.params.loggedid;
+    var postid = req.body.post;
+    var loggedid = req.body.loggedid;
 
     User.findById(loggedid).then((loggedUser) => {
         if (!loggedUser) {

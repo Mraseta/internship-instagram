@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="header" *ngIf="author">
+        <span class="helper"></span><img class="ppic" [src]="author.imageUrl" width="30px" height="30px">&nbsp;
+        <b><a [href]="profile">{{author.username}}</a></b>
+        <span class="helper"></span><label class="date">{{created}}</label>
+    </div>
+    <div class="item">
+        <a [href]="posturl"><img class="post" [src]="post.imageUrl"></a>
+    </div>
+    
+    <div class="description" *ngIf="author">
+        <label><b><i>{{author.username}}</i></b>&nbsp;&nbsp;<i>{{ description }}</i></label>
+    </div>
+
+</div>
+<!-- <hr width="300px"> -->

@@ -1,15 +1,19 @@
 var {User} = require('./../models/user');
+var {Post} = require('./../models/post');
 const {ObjectID} = require('mongodb');
 
 function login(req, res) {
-    User.findOne({username: req.body.username}).then((user) => {
-        if (user.password === req.body.password) {
-            return res.status(200).send({user});
-        }
+    var username = req.body.username;
+    var password = req.body.password;
 
-        res.status(400).send('Incorrect password');
-    }, (err) => {
-        console.log('Unable to login', err);
+    User.findOne({username}).then((user) => {
+        if (user.password !== req.body.password) {
+            res.status(403).send({text: 'Incorrect password'});
+        } else {
+            res.status(200).send({user});
+        }
+    }).catch((err) => {
+        res.status(401).send({text: 'Invalid username'});
     });
 }
 
@@ -41,8 +45,20 @@ function getAll(req, res) {
     });
 }
 
+function findUser(req, res) {
+    User.findById(req.query.id).then((user) => {
+        if(!user) {
+            return res.status(404).send();
+        }
+
+        res.send({user});
+    }, (err) => {
+        console.log('Error', err);
+    });
+}
+
 function search(req, res) {
-    var input = req.params.input;
+    var input = req.query.input;
 
     User.find().then((users) => {
         if (!users) {
@@ -108,46 +124,59 @@ function unfollow(req, res) {
 }
 
 function profile(req, res) {
-    var username = req.params.username;
+    var username = req.query.username;
+    var loggedid = req.query.loggedid;
+
+    var founduser = null;
 
     User.findOne({username: username}).then((user) => {
         if (!user) {
             return res.status(404).send();
         }
 
-        Post.find({userId: user._id}).then((posts) => {
-            posts.sort(function(a, b){
+        founduser = user;
+        // console.log(founduser._id);
+
+        // res.send(founduser);
+
+        Post.find({userId: new ObjectID(founduser._id)}).then((posts) => {
+            var userposts = posts;
+            // console.log('asdasdasdasdasdasdasdasd');
+
+            userposts.sort(function(a, b){
                 return b.created - a.created;
             });
-            res.send({
-                username: user.username,
-                image: user.imageUrl,
-                posts: posts
-            });
 
-            // User.findById(loggedid).then((loggedUser) => {
-            //     if (!loggedUser) {
-            //         return res.status(404).send();
-            //     }
-
-            //     if (loggedUser.following.includes(id)) {
-            //         res.send({
-            //             username: user.username,
-            //             image: user.imageUrl,
-            //             posts: posts,
-            //             followed: true
-            //         });
-            //     } else {
-            //         res.send({
-            //             username: user.username,
-            //             image: user.imageUrl,
-            //             posts: posts,
-            //             followed: false
-            //         });
-            //     }
-            // }).catch((e) => {
-            //     res.status(400).send();
+            // console.log(userposts);
+            // res.send({
+            //     username: user.username,
+            //     image: user.imageUrl,
+            //     posts: posts
             // });
+
+            User.findById(loggedid).then((loggedUser) => {
+                if (!loggedUser) {
+                    return res.status(404).send();
+                }
+
+                if (loggedUser.following.includes(founduser._id)) {
+                    res.send({
+                        user: founduser,
+                        image: founduser.imageUrl,
+                        followed: true,
+                        posts: userposts
+                    });
+                } else {
+                    res.send({
+                        user: founduser,
+                        image: founduser.imageUrl,
+                        followed: false,
+                        posts: userposts   
+                    });
+                }
+            }).catch((e) => {
+                res.status(400).send();
+            });
         }, (err) => {
             console.log('Error', err);
         });
@@ -163,5 +192,6 @@ module.exports = {
     getAll: getAll,
     search: search,
     follow: follow,
-    unfollow: unfollow
+    unfollow: unfollow,
+    findUser: findUser
 }

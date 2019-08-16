@@ -1,0 +1,13 @@
+.nav-link {
+    cursor: pointer;
+}
+
+.navbar-brand {
+    cursor: pointer;
+}
+
+.wrapperdiv {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}

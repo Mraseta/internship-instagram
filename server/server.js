@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
+var cors = require('cors');
 
 var {mongoose} = require('./db/mongoose');
 var {User} = require('./models/user');
@@ -11,7 +12,7 @@ const userroute = require('./routes/users');
 const postroute = require('./routes/posts');
 
 var app = express();
-
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/users', userroute);

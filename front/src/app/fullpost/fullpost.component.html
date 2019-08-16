@@ -1,0 +1,28 @@
+<app-header></app-header>
+
+<div class="content">
+<div class="container">
+        <div class="header" *ngIf="author">
+            <span class="helper"></span><img class="ppic" [src]="author.imageUrl" width="30px" height="30px">&nbsp;
+            <label>{{author.username}}</label>
+            <span class="helper"></span><label class="date">{{created}}</label>
+        </div>
+        <div class="item" *ngIf="post">
+            <img class="post" [src]="post.imageUrl" (click)="logCommenters()">
+        </div>
+        <div class="description">
+            <label><b><i>{{author.username}}</i></b>&nbsp;&nbsp;<i>{{ description }}</i></label>
+        </div>
+        <div class="comms" *ngIf="commentersLoaded">
+        <app-comment
+            *ngFor="let comment of comments; let i = index" [comment]="comment"></app-comment>
+        </div>
+        <div class="input-group"> 
+            <textarea name="commentText" [(ngModel)]="commentText" placeholder="Add a comment" cols="59" rows="1"></textarea><button type="button" class="btn btn-primary" (click)="sendComment()">Send</button>
+            <!-- <input class="form-control" id="addcomm" placeholder="Add a comment" type="text"><button type="button" class="btn btn-primary">Send</button> -->
+            <!-- <span class="input-group-addon">
+                <button type="button" class="btn btn-primary">Primary</button>
+            </span> -->
+        </div>
+    </div>
+</div>

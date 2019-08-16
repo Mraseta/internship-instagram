@@ -1,0 +1,45 @@
+.content {
+    margin-top: 65px;
+}
+
+.profilepic {
+    border-radius: 50%;
+}
+
+.top {
+    width: 70%;
+    margin: auto;
+    height: 150px;
+    display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.picandname {
+    margin-top: 25px;
+    display: flex;
+    flex: 1;
+}
+
+.buttondiv {
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    margin-top: 25px;
+}
+
+.posts {
+    display: flex;
+    width: 70%;
+    margin: auto;
+    height: 100vh;
+}
+
+.username {
+    font-size: 100px;
+    font-style: oblique;
+}
+
+hr {
+    width: 70%;
+}
