@@ -1,0 +1,56 @@
+<!-- <div class="container">
+	<div class="row">
+	    
+	    <div class="col-md-8 col-md-offset-2">
+	        
+    		<h1>Create post</h1>
+    		
+    		<form>    		    
+    		    <div class="form-group">
+                    <label for="photo">Photo</label>
+                    <label for="path"></label>
+    		        <input type="text" /><input type="file" class="form-control" name="photo" />
+    		    </div>
+    		    
+    		    <div class="form-group">
+    		        <label for="description">Description</label>
+    		        <textarea rows="5" class="form-control" name="description" ></textarea>
+    		    </div>
+    		    
+    		    <div class="form-group">
+    		        <button type="submit" class="btn btn-primary">
+    		            Create
+    		        </button>
+    		        <button class="btn btn-default">
+    		            Cancel
+    		        </button>
+    		    </div>
+    		    
+    		</form>
+		</div>
+		
+	</div>
+</div> -->
+
+<!-- <div class="container">
+    <h1>Create Post</h1>
+    <hr>
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <table>
+            <tr class="spaceUnder"><td><label>Photo</label></td><td><input type="file" name="inputFile" /></td></tr>
+            <tr><td><label>Description</label></td><td><textarea rows="5" name="inputDesc"></textarea></td></tr>
+            <tr><td><input type="submit" value="Submit"></td></tr>
+        </table>
+    </form>
+</div> -->
+
+<h1>Create Post</h1>
+<div class="content">
+<img [src]="imgURL" height="250" *ngIf="imgURL"><br>
+<span style="color:red;" *ngIf="message">{{message}}</span>
+<table>
+<tr class="spaceUnder"><td><label>Choose Photo:&nbsp;&nbsp;</label></td><td><input #file type="file" accept='image/*' (change)="preview(file.files)" /></td></tr>
+<tr><td><label>Description:</label></td><td><textarea rows="5"></textarea></td></tr>
+</table>
+<div class="submitDiv"><button id="btnSubmit" class="btn btn-primary">Submit</button></div>
+</div>

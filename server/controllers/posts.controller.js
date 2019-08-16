@@ -24,7 +24,7 @@ function fposts(req, res) {
 }
 
 function newpost(req, res) {
-    var id = req.params.id;
+    var id = req.body.id;
 
     var post = new Post({
         userId: id,

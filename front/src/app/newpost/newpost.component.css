@@ -1,0 +1,27 @@
+tr.spaceUnder>td {
+    padding-bottom: 1em;
+}
+
+.photo {
+    width: 100%;
+}
+
+.desc {
+    width: 100%;
+}
+
+img {
+    margin-left: 3px;
+}
+
+#btnSubmit {
+    margin-left: 3px;
+}
+
+textarea {
+    width: 100%;
+}
+
+.submitDiv {
+    width: 100%;
+}

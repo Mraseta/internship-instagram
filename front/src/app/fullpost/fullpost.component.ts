@@ -58,35 +58,35 @@ export class FullpostComponent implements OnInit {
       (user) => {
         this.author = user.user;
         this.created = this.post.created.toString().substring(0,10);
-        // this.getCommenters();
+        this.getCommenters();
       }, (error) => console.log(error)
     );
   }
 
-  // getCommenters() {
-  //   var i=0;
-  //   this.comments.forEach(element => {
-  //     this.http.get("http://127.0.0.1:3000/users/find?id="+element.authorId)
-  //     .pipe(
-  //       map((response: Response) => {
-  //         const data = response.json();
-  //         return data;
-  //       }),
-  //       catchError((err: Response) => {
-  //         return throwError(JSON.parse(err.text()));
-  //       })
-  //     )
-  //     .subscribe(
-  //       (user) => {
-  //         this.commenters.push(user.user);
-  //         i++;
-  //         if (i === this.comments.length) {
-  //           this.commentersLoaded = true;
-  //         }
-  //       }, (error) => console.log(error)
-  //     );
-  //   });
-  // }
+  getCommenters() {
+    var i=0;
+    this.comments.forEach(element => {
+      this.http.get("http://127.0.0.1:3000/users/find?id="+element.authorId)
+      .pipe(
+        map((response: Response) => {
+          const data = response.json();
+          return data;
+        }),
+        catchError((err: Response) => {
+          return throwError(JSON.parse(err.text()));
+        })
+      )
+      .subscribe(
+        (user) => {
+          this.commenters.push(user.user);
+          i++;
+          if (i === this.comments.length) {
+            this.commentersLoaded = true;
+          }
+        }, (error) => console.log(error)
+      );
+    });
+  }
 
   logCommenters() {
     console.log('commenters', this.commenters);

@@ -80,9 +80,8 @@ function search(req, res) {
 }
 
 function follow(req, res) {
-    var id = req.params.id;
-    var loggedid = req.params.loggedid;
-    console.log('usao');
+    var id = req.body.id;
+    var loggedid = req.body.loggedid;
 
     User.findById(id).then((user) => {
         if (!user) {
@@ -103,8 +102,8 @@ function follow(req, res) {
 }
 
 function unfollow(req, res) {
-    var id = req.params.id;
-    var loggedid = req.params.loggedid;
+    var id = req.body.id;
+    var loggedid = req.body.loggedid;
 
     User.findById(id).then((user) => {
         if (!user) {

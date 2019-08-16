@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from '@angular/router';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +17,7 @@ import { CommentComponent } from './comment/comment.component';
 import { SearchresultComponent } from './searchresult/searchresult.component';
 import { SearchComponent } from './search/search.component';
 import { ProfileComponent } from './profile/profile.component';
+import { NewpostComponent } from './newpost/newpost.component';
 
 
 const appRoutes: Routes = [
@@ -38,15 +40,18 @@ const appRoutes: Routes = [
     SearchresultComponent,
     SearchComponent,
     ProfileComponent,
+    NewpostComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpModule,
+    NgbModalModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [CookieService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [NewpostComponent]
 })
 export class AppModule { }

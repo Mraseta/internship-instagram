@@ -9,7 +9,7 @@ router.get('/profile', userCtrl.profile);
 router.get('', userCtrl.getAll);
 router.get('/search', userCtrl.search);
 router.get('/find', userCtrl.findUser);
-router.patch('/follow/:id&:loggedid', userCtrl.follow);
-router.patch('/unfollow/:id&:loggedid', userCtrl.unfollow);
+router.patch('/follow', userCtrl.follow);
+router.patch('/unfollow', userCtrl.unfollow);
 
 module.exports = router;

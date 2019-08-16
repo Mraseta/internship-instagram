@@ -44,4 +44,5 @@
 .description {
     display: flex;
     word-break: break-word;
+    margin-left: 13px;
 }

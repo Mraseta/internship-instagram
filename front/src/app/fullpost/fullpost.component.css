@@ -9,7 +9,7 @@
 }
 
 .comms {
-    width: 500px;
+    width: 600px;
 }
 
 .content {
@@ -19,6 +19,7 @@
 .description {
   display: flex;
   word-break: break-word;
+  margin-left: 13px;
 }
 
 /*.helper {
@@ -32,22 +33,22 @@
 }
 
 .item {
-    widows: 500px; 
-    height: 500px; 
+    widows: 600px; 
+    height: 600px; 
     border-bottom: double;
     border-bottom-color: white;
 }
 
 .header {
-    widows: 500px;
+    widows: 600px;
     height: 35px;
     line-height: 35px;
 }
 
 .container {
     margin-right: auto;
-    width: 530px;
-    height: 550px;
+    width: 630px;
+    height: 650px;
 }
 
 .panel-shadow {
@@ -153,7 +154,7 @@
 }
 
 .input-group {
-    width: 500px;
+    width: 100%;
     display: flex;
     flex-direction: row;
 }

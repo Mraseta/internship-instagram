@@ -18,7 +18,7 @@
             *ngFor="let comment of comments; let i = index" [comment]="comment"></app-comment>
         </div>
         <div class="input-group"> 
-            <textarea name="commentText" [(ngModel)]="commentText" placeholder="Add a comment" cols="59" rows="1"></textarea><button type="button" class="btn btn-primary" (click)="sendComment()">Send</button>
+            <textarea name="commentText" [(ngModel)]="commentText" placeholder="Add a comment" cols="73" rows="1"></textarea><button type="button" class="btn btn-primary" (click)="sendComment()">Send</button>
             <!-- <input class="form-control" id="addcomm" placeholder="Add a comment" type="text"><button type="button" class="btn btn-primary">Send</button> -->
             <!-- <span class="input-group-addon">
                 <button type="button" class="btn btn-primary">Primary</button>

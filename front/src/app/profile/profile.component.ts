@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProfileService } from '../services/profile.service';
 import { CookieService } from 'ngx-cookie-service';
+import { Http, Response } from '@angular/http';
+import { map, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +25,8 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private profileService: ProfileService,
     private cookieService: CookieService,
-    private activeRoute: ActivatedRoute) { }
+    private activeRoute: ActivatedRoute,
+    private http: Http) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -54,6 +58,24 @@ export class ProfileComponent implements OnInit {
           this.ownProf = !(this.username === JSON.parse(this.cookieService.get('loggedUser')).username);
         }
       )
+  }
+
+  onClick() {
+    if (this.followed) {
+      this.profileService.unfollow(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id)
+      .subscribe(
+        () => {
+          this.loadInfo();
+        }
+      )
+    } else {
+      this.profileService.follow(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id)
+      .subscribe(
+        () => {
+          this.loadInfo();
+        }
+      )
+    }
   }
 
 }

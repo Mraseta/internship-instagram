@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NewpostComponent } from '../newpost/newpost.component';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +16,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private cookieService: CookieService,
     private router: Router,
-    private activeRoute: ActivatedRoute) { }
+    private activeRoute: ActivatedRoute,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     
@@ -37,6 +40,10 @@ export class HeaderComponent implements OnInit {
   profClick() {
     this.router.navigate(['/profile'], { queryParams: { username: JSON.parse(this.cookieService.get('loggedUser')).username, 
                                                         loggedid: JSON.parse(this.cookieService.get('loggedUser'))._id } });
+  }
+
+  newPostClick() {
+    const modal = this.modalService.open(NewpostComponent);
   }
 
 }

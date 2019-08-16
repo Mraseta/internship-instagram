@@ -1,6 +1,5 @@
 .comment {
     display: flex;
     width: 500px;
-    white-space: normal;
     word-break: break-word;
 }
