@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
+const port = process.env.PORT || 3000;
 var cors = require('cors');
 
 var {mongoose} = require('./db/mongoose');
@@ -18,6 +19,6 @@ app.use(bodyParser.json());
 app.use('/users', userroute);
 app.use('/posts', postroute);
 
-app.listen(3000, () => {
-    console.log('Started on port 3000');
+app.listen(port, () => {
+    console.log(`Started on port ${port}`);
 });
