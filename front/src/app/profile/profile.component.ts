@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ProfileService } from '../services/profile.service';
 import { CookieService } from 'ngx-cookie-service';
-import { Http, Response } from '@angular/http';
-import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,15 +20,14 @@ export class ProfileComponent implements OnInit {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private profileService: ProfileService,
     private cookieService: CookieService,
     private activeRoute: ActivatedRoute,
-    private http: Http) { }
+    private userService: UserService) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.username = params['username'];
-      this.loggedid = params['loggedid'];
+      this.loggedid = JSON.parse(this.cookieService.get('loggedUser'))._id;
     });
 
     this.loadInfo();
@@ -43,7 +39,7 @@ export class ProfileComponent implements OnInit {
   }
 
   loadInfo() {
-    this.profileService.getInfo(this.username, this.loggedid)
+    this.userService.getInfo(this.username, this.loggedid)
       .subscribe(
         (info) => {
           this.user = info.user;
@@ -62,14 +58,14 @@ export class ProfileComponent implements OnInit {
 
   onClick() {
     if (this.followed) {
-      this.profileService.unfollow(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id)
+      this.userService.unfollow(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id)
       .subscribe(
         () => {
           this.loadInfo();
         }
       )
     } else {
-      this.profileService.follow(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id)
+      this.userService.follow(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id)
       .subscribe(
         () => {
           this.loadInfo();

@@ -2,7 +2,7 @@
 
 <div class="content">
     <div class="top">
-        <div class="picandname"><img [src]="user.imageUrl" class="profilepic" width="130" height="130">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="username">{{ user.username }}</label></div>
+        <div class="picandname" *ngIf="user"><img [src]="user.imageUrl" class="profilepic" width="130" height="130">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="username">{{ user.username }}</label></div>
         <div class="buttondiv" *ngIf="ownProf"><button type="button" class="btn btn-primary" (click)="onClick()">{{ btnText }}</button></div>
     </div>
     <hr>

@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import { FullpostService } from '../services/fullpost.service';
+import { PostService } from '../services/post.service';
 
 @Component({
   selector: 'app-comment',
@@ -14,20 +12,21 @@ export class CommentComponent implements OnInit {
   @Input() text: string;
   @Input() author: any;
   @Input() comment: any;
+  @Input() profile: string = "";
   isLoaded = false;
 
-  constructor(private http: Http,
-    private fullpostService: FullpostService) { }
+  constructor(private postService: PostService) { }
 
   ngOnInit() {
     this.getAuthor();
   }
 
   getAuthor() {
-    this.fullpostService.getAuthorId(this.comment.authorId)
+    this.postService.getAuthorId(this.comment.authorId)
       .subscribe(
         (user) => {
           this.author = user.user;
+          this.profile = "profile?username="+this.author.username;
           this.username = user.username;
           this.text = this.comment.text;
           this.isLoaded = true;

@@ -18,6 +18,7 @@ import { SearchresultComponent } from './searchresult/searchresult.component';
 import { SearchComponent } from './search/search.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NewpostComponent } from './newpost/newpost.component';
+import { SearchpostsComponent } from './searchposts/searchposts.component';
 
 
 const appRoutes: Routes = [
@@ -25,7 +26,8 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'post', component: FullpostComponent},
   { path: 'search', component: SearchComponent},
-  { path: 'profile', component: ProfileComponent}
+  { path: 'profile', component: ProfileComponent},
+  { path: 'searchposts', component: SearchpostsComponent}
 ];
 
 @NgModule({
@@ -41,6 +43,7 @@ const appRoutes: Routes = [
     SearchComponent,
     ProfileComponent,
     NewpostComponent,
+    SearchpostsComponent,
   ],
   imports: [
     BrowserModule,

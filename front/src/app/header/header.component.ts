@@ -16,7 +16,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(private cookieService: CookieService,
     private router: Router,
-    private activeRoute: ActivatedRoute,
     private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -35,11 +34,11 @@ export class HeaderComponent implements OnInit {
   onSubmit(form: NgForm) {
     // var target = "/search/"+form.value.inputText;
     this.router.navigate(['/search'], { queryParams: { input: form.value.inputText } });
+    // this.router.navigate(['/searchposts'], { queryParams: { input: form.value.inputText } });
   }
 
   profClick() {
-    this.router.navigate(['/profile'], { queryParams: { username: JSON.parse(this.cookieService.get('loggedUser')).username, 
-                                                        loggedid: JSON.parse(this.cookieService.get('loggedUser'))._id } });
+    this.router.navigate(['/profile'], { queryParams: { username: JSON.parse(this.cookieService.get('loggedUser')).username } });
   }
 
   newPostClick() {

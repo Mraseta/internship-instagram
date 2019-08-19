@@ -1,6 +1,8 @@
 var {Post} = require('./../models/post');
 var {User} = require('./../models/user');
 const {ObjectID} = require('mongodb');
+const fs = require('fs');
+const path = require('path');
 
 function fposts(req, res) {
     var id = req.query.loggedid;
@@ -30,14 +32,30 @@ function newpost(req, res) {
         userId: id,
         imageUrl: req.body.imageUrl,
         description: req.body.description,
+        created: new Date(),
         comments: []
     });
 
     post.save().then((doc) => {
-        res.send(doc);
+        res.send({doc});
     }, (e) => {
         res.status(400).send(e);
     });
+}
+
+function uploadImage(req, res) {
+    var loggedid = req.body.loggedid;
+    var base64image = req.body.base64image;
+    var imageName = req.body.name;
+
+    if (!ObjectID.isValid(loggedid)) {
+        return res.status(404).send({text: 'Invalid user id'});
+    }
+
+    console.log('aaaaaa', path.join(__dirname, `../../front/src/assets/images/${imageName}`));
+    const savePath = path.join(__dirname, `../../front/src/assets/images/${imageName}`);
+    fs.writeFileSync(savePath, base64image, 'base64');
+    res.status(200).send({text: 'upload'});
 }
 
 function getPost(req, res) {
@@ -84,9 +102,36 @@ function comment(req, res) {
     });
 }
 
+function searchByDesc(req, res) {
+    var input = req.query.input;
+
+    Post.find().then((posts) => {
+        if(!posts) {
+            return res.status(404).send();
+        }
+
+        var ret = [];
+
+        posts.forEach(element => {
+            if(element.description.includes(input)){
+                ret.push(element);
+            }
+        });
+
+        ret.sort(function(a, b) {
+            return b.created-a.created;
+        });
+        res.send({ret});
+    }, (err) => {
+        console.log('Error', err);
+    });
+}
+
 module.exports = {
     fposts: fposts,
     newpost: newpost,
     getPost: getPost,
-    comment: comment
+    comment: comment,
+    uploadImage: uploadImage,
+    searchByDesc: searchByDesc
 }

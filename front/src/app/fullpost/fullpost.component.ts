@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
-import { FullpostService } from '../services/fullpost.service';
+import { PostService } from '../services/post.service';
 
 @Component({
   selector: 'app-fullpost',
@@ -20,11 +20,13 @@ export class FullpostComponent implements OnInit {
   commentersLoaded = false;
   commentText: string = "";
   description: string = "";
+  profile: string = "";
+  words = [];
 
   constructor(private http: Http,
     private router: Router,
     private cookieService: CookieService,
-    private fullpostService: FullpostService) { }
+    private postService: PostService) { }
 
   ngOnInit() {
     this.getPost();
@@ -36,7 +38,7 @@ export class FullpostComponent implements OnInit {
     }
     else {
       var postid = this.router.url.split('=')[1];
-      this.fullpostService.getPostId(postid)
+      this.postService.getPostId(postid)
       .subscribe(
         (gpost) => {
           this.post = gpost.post;
@@ -45,6 +47,10 @@ export class FullpostComponent implements OnInit {
           });
           this.comments = this.post.comments;
           this.description = this.post.description;
+          this.words = Object.assign([], this.description.split(' '));
+          this.words.forEach(element => {
+            this.addSpace(element);
+          });
           console.log('comm', this.comments);
           this.getAuthor();
         }, (error) => console.log(error)
@@ -53,14 +59,36 @@ export class FullpostComponent implements OnInit {
   }
 
   getAuthor() {
-    this.fullpostService.getAuthorId(this.post.userId)
+    this.postService.getAuthorId(this.post.userId)
     .subscribe(
       (user) => {
         this.author = user.user;
         this.created = this.post.created.toString().substring(0,10);
+        this.profile = "profile?username="+this.author.username;//+"&loggedid="+JSON.parse(this.cookieService.get('loggedUser'))._id;
         this.getCommenters();
       }, (error) => console.log(error)
     );
+  }
+
+  isHashtag(word) {
+    word+=' ';
+    if (word.charAt(0) === '#') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  navigateAway(word) {
+    this.router.navigate(['/searchposts'],  { queryParams: { input: word } });
+  }
+
+  pageLink(word) {
+    return "/searchposts?input="+word;
+  }
+
+  addSpace(word) {
+    return word+' ';
   }
 
   getCommenters() {
@@ -93,7 +121,7 @@ export class FullpostComponent implements OnInit {
   }
 
   sendComment() {
-    this.fullpostService.postComment(this.post._id, JSON.parse(this.cookieService.get('loggedUser'))._id, this.commentText)
+    this.postService.postComment(this.post._id, JSON.parse(this.cookieService.get('loggedUser'))._id, this.commentText)
     .subscribe(
       (sentComment: any) => {
         this.post.comments.push(sentComment);

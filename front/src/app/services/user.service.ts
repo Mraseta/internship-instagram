@@ -6,9 +6,25 @@ import { throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProfileService {
+export class UserService {
 
   constructor(private http: Http) { }
+
+  postUser(username: string, password: string) {
+    return this.http.post("http://127.0.0.1:3000/users/login", {
+      username: username,
+      password: password
+    })
+    .pipe(
+      map((response: Response) => {
+        const data = response.json();
+        return data;
+      }),
+      catchError((err: Response) => {
+        return throwError(JSON.parse(err.text()));
+      })
+    )
+  }
 
   getInfo(username: string, loggedid: string) {
     return this.http.get("http://127.0.0.1:3000/users/profile?username="+username+'&loggedid='+loggedid)
@@ -54,4 +70,17 @@ export class ProfileService {
       })
     );
   }
-} 
+  
+  getUsers(input: string) {
+    return this.http.get("http://127.0.0.1:3000/users/search?input="+input)
+    .pipe(
+      map((response: Response) => {
+        const data = response.json();
+        return data;
+      }),
+      catchError((err: Response) => {
+        return throwError(JSON.parse(err.text()));
+      })
+    )
+  }
+}

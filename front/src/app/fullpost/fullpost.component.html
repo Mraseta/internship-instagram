@@ -3,15 +3,21 @@
 <div class="content">
 <div class="container">
         <div class="header" *ngIf="author">
-            <span class="helper"></span><img class="ppic" [src]="author.imageUrl" width="30px" height="30px">&nbsp;
-            <label>{{author.username}}</label>
+            <span class="helper"></span><a [href]="profile"><img class="ppic" [src]="author.imageUrl" width="30px" height="30px"></a>&nbsp;
+            <b><a [href]="profile">{{author.username}}</a></b>
             <span class="helper"></span><label class="date">{{created}}</label>
         </div>
         <div class="item" *ngIf="post">
             <img class="post" [src]="post.imageUrl" (click)="logCommenters()">
         </div>
-        <div class="description">
+        <!-- <div class="description" *ngIf="author">
             <label><b><i>{{author.username}}</i></b>&nbsp;&nbsp;<i>{{ description }}</i></label>
+        </div> -->
+        <div class="description" *ngIf="author"><label><a [href]="profile"><b><i>{{author.username}}</i></b></a>&nbsp;&nbsp;</label>
+            <div class="words" *ngFor="let word of words">
+                <ng-container *ngIf="isHashtag(word); else elseTemplate"><span (click)="navigateAway(word)"><i>{{ word }}</i></span>&nbsp;</ng-container>
+                <ng-template #elseTemplate><i>{{ word }}</i>&nbsp;</ng-template>
+            </div>
         </div>
         <div class="comms" *ngIf="commentersLoaded">
         <app-comment

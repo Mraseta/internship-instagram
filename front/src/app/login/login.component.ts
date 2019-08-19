@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Response } from '@angular/http';
 import { Http } from '@angular/http';
-import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { LoginService } from '../services/login.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(private http: Http,
     private router: Router,
     private cookieService: CookieService,
-    private loginService: LoginService) { }
+    private userService: UserService) { }
 
   ngOnInit() {
    if (this.cookieService.get('loggedUser') === null) {
@@ -30,7 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.loginService.postUser(this.username, this.password)
+    this.userService.postUser(this.username, this.password)
     .subscribe(
       (user: any) => {
         this.cookieService.set('loggedUser', JSON.stringify(user.user));

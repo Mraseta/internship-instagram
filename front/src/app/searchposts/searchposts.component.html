@@ -1,0 +1,9 @@
+<app-header></app-header>
+
+<div class="content row" *ngIf="isLoaded">
+    <div class="col-sm-4" *ngFor="let post of posts">
+        <app-post
+            [post]="post">
+        </app-post>
+    </div>
+</div>
