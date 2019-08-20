@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { PostService } from '../services/post.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-comment',
@@ -15,14 +16,14 @@ export class CommentComponent implements OnInit {
   @Input() profile: string = "";
   isLoaded = false;
 
-  constructor(private postService: PostService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.getAuthor();
   }
 
   getAuthor() {
-    this.postService.getAuthorId(this.comment.authorId)
+    this.userService.getAuthorId(this.comment.authorId)
       .subscribe(
         (user) => {
           this.author = user.user;

@@ -52,7 +52,6 @@ function uploadImage(req, res) {
         return res.status(404).send({text: 'Invalid user id'});
     }
 
-    console.log('aaaaaa', path.join(__dirname, `../../front/src/assets/images/${imageName}`));
     const savePath = path.join(__dirname, `../../front/src/assets/images/${imageName}`);
     fs.writeFileSync(savePath, base64image, 'base64');
     res.status(200).send({text: 'upload'});

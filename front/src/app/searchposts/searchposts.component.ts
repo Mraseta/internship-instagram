@@ -9,6 +9,7 @@ import { PostService } from '../services/post.service';
 })
 export class SearchpostsComponent implements OnInit {
   posts = [];
+  query: string = "";
   isLoaded = false;
 
 
@@ -27,6 +28,7 @@ export class SearchpostsComponent implements OnInit {
 
   loadPosts() {
     var input = this.router.url.split('=')[1];
+    this.query = decodeURIComponent(input);
 
     this.postService.searchPosts(input)
     .subscribe(

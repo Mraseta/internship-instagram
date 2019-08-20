@@ -24,19 +24,12 @@ span {
 
 .description {
   display: flex;
-  /* word-break: break-word; */
   margin-left: 13px;
 }
 
 .words {
   word-break: break-word;
 }
-
-/*.helper {
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-}*/
 
 .ppic {
     border-radius: 50%;

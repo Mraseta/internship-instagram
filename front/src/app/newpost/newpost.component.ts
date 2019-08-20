@@ -36,10 +36,13 @@ export class NewpostComponent implements OnInit {
     //     );
     // });
 
+    
+    this.description = this.description.replace(/  +/g, ' ');
+    this.description = this.description.replace(/\t/g, ' ');
     this.uploadImage();
 
     const imageUrl = `assets/images/${this.name}`;
-      console.log(imageUrl);
+    console.log(imageUrl);
 
       this.postService.newPost(JSON.parse(this.cookieService.get('loggedUser'))._id, imageUrl, this.description)
         .subscribe(
@@ -90,7 +93,7 @@ export class NewpostComponent implements OnInit {
       this.postService.uploadImage(JSON.parse(this.cookieService.get('loggedUser'))._id, this.base64textString, this.name)
         .subscribe(
           (data: any) => {
-            //alert('t');
+
             console.log(data);
           }, //resolve();},
           (error) => alert('error')// reject();}

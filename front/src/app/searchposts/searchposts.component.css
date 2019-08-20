@@ -1,6 +1,13 @@
-.content {
+.wrapper {
     margin-top: 65px;
+}
+
+.content {
     width: 80%;
     margin-right: auto;
     margin-left: auto;
+}
+
+h1 {
+    font-size: 65px;
 }

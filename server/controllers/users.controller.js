@@ -79,47 +79,45 @@ function search(req, res) {
     });
 }
 
-function follow(req, res) {
+function changeFollowing(req, res) {
     var id = req.body.id;
     var loggedid = req.body.loggedid;
+    var foll = req.body.following;
 
-    User.findById(id).then((user) => {
-        if (!user) {
-            return res.status(404).send();
-        }
+    if (!foll) {
+        User.findById(id).then((user) => {
+            if (!user) {
+                return res.status(404).send();
+            }
 
-        User.findByIdAndUpdate(loggedid, {
-            $push: { following: new ObjectID(id)  }
-        }, {
-            returnOriginal: false
-        }).then((result) => {
-            return res.send(result);
+            User.findByIdAndUpdate(loggedid, {
+                $push: { following: new ObjectID(id)  }
+            }, {
+                returnOriginal: false
+            }).then((result) => {
+                return res.send(result);
+            });
+        }).catch((e) => {
+            console.log('catch');
+            res.status(400).send(e);
         });
-    }).catch((e) => {
-        console.log('catch');
-        res.status(400).send(e);
-    });
-}
-
-function unfollow(req, res) {
-    var id = req.body.id;
-    var loggedid = req.body.loggedid;
-
-    User.findById(id).then((user) => {
-        if (!user) {
-            return res.status(404).send();
-        }
-
-        User.findByIdAndUpdate(loggedid, {
-            $pullAll: { following: [new ObjectID(id)]  }
-        }, {
-            returnOriginal: false
-        }).then((result) => {
-            return res.send(result);
+    } else {
+        User.findById(id).then((user) => {
+            if (!user) {
+                return res.status(404).send();
+            }
+    
+            User.findByIdAndUpdate(loggedid, {
+                $pullAll: { following: [new ObjectID(id)]  }
+            }, {
+                returnOriginal: false
+            }).then((result) => {
+                return res.send(result);
+            });
+        }).catch((e) => {
+            res.status(400).send();
         });
-    }).catch((e) => {
-        res.status(400).send();
-    });
+    }
 }
 
 function profile(req, res) {
@@ -190,7 +188,6 @@ module.exports = {
     profile: profile,
     getAll: getAll,
     search: search,
-    follow: follow,
-    unfollow: unfollow,
-    findUser: findUser
+    findUser: findUser,
+    changeFollowing: changeFollowing
 }

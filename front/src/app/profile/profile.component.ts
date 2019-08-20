@@ -57,21 +57,28 @@ export class ProfileComponent implements OnInit {
   }
 
   onClick() {
-    if (this.followed) {
-      this.userService.unfollow(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id)
+    // if (this.followed) {
+    //   this.userService.unfollow(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id)
+    //   .subscribe(
+    //     () => {
+    //       this.loadInfo();
+    //     }
+    //   )
+    // } else {
+    //   this.userService.follow(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id)
+    //   .subscribe(
+    //     () => {
+    //       this.loadInfo();
+    //     }
+    //   )
+    // }
+
+    this.userService.changeFollowing(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id, this.followed)
       .subscribe(
         () => {
           this.loadInfo();
         }
       )
-    } else {
-      this.userService.follow(this.user._id, JSON.parse(this.cookieService.get('loggedUser'))._id)
-      .subscribe(
-        () => {
-          this.loadInfo();
-        }
-      )
-    }
   }
 
 }

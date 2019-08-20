@@ -5,6 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { PostService } from '../services/post.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-fullpost',
@@ -26,6 +27,7 @@ export class FullpostComponent implements OnInit {
   constructor(private http: Http,
     private router: Router,
     private cookieService: CookieService,
+    private userService: UserService,
     private postService: PostService) { }
 
   ngOnInit() {
@@ -59,7 +61,7 @@ export class FullpostComponent implements OnInit {
   }
 
   getAuthor() {
-    this.postService.getAuthorId(this.post.userId)
+    this.userService.getAuthorId(this.post.userId)
     .subscribe(
       (user) => {
         this.author = user.user;

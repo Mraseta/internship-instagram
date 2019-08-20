@@ -83,4 +83,47 @@ export class UserService {
       })
     )
   }
+
+  changeFollowing(id, loggedid, following) {
+    return this.http.patch("http://127.0.0.1:3000/users/change", {
+      id: id,
+      loggedid: loggedid,
+      following: following
+    })
+    .pipe(
+      map((response: Response) => {
+        const data = response.json();
+        return data;
+      }),
+      catchError((err: Response) => {
+        return throwError(JSON.parse(err.text()));
+      })
+    );
+  }
+
+  getUser(post: any) {
+    return this.http.get("http://127.0.0.1:3000/users/find?id="+post.userId)
+    .pipe(
+      map((response: Response) => {
+        const data = response.json();
+        return data;
+      }),
+      catchError((err: Response) => {
+        return throwError(JSON.parse(err.text()));
+      })
+    );
+  }
+
+  getAuthorId(userId: string) {
+    return this.http.get("http://127.0.0.1:3000/users/find?id="+userId)
+    .pipe(
+      map((response: Response) => {
+        const data = response.json();
+        return data;
+      }),
+      catchError((err: Response) => {
+        return throwError(JSON.parse(err.text()));
+      })
+    )
+  }
 }

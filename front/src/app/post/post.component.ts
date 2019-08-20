@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { PostService } from '../services/post.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-post',
@@ -20,7 +21,8 @@ export class PostComponent implements OnInit {
 
   constructor(private http: Http,
     private router: Router,
-    private postService: PostService) { }
+    private postService: PostService,
+    private userService: UserService) { }
 
   ngOnInit() {
     this.getAll();
@@ -28,7 +30,7 @@ export class PostComponent implements OnInit {
   }
 
   getAll() {
-    this.postService.getUser(this.post)
+    this.userService.getUser(this.post)
     .subscribe(
       (user) => {
         this.author = user.user;
