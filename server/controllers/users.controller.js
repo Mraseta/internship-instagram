@@ -8,12 +8,31 @@ function login(req, res) {
 
     User.findOne({username}).then((user) => {
         if (user.password !== req.body.password) {
-            res.status(403).send({text: 'Incorrect password'});
+            res.status(400).send({text: 'Incorrect password'});
         } else {
-            res.status(200).send({user});
+            // res.status(200).send({user});
+            return user.generateAuthToken().then((token) => {
+                res.header('x-auth', token).send(user);
+            });
         }
     }).catch((err) => {
-        res.status(401).send({text: 'Invalid username'});
+        res.status(400).send({text: 'Invalid username'});
+    });
+
+    // User.findByCredentials(username, password).then((user) => {
+    //     return user.generateAuthToken().then((token) => {
+    //         res.header('x-auth', token).send(user);
+    //     });
+    // }).catch((e) => {
+    //     res.status(400).send();
+    // });
+}
+
+function logout(req, res) {
+    req.user.removeToken(req.token).then(() => {
+        res.status(200).send();
+    }, () => {
+        res.status(400).send();
     });
 }
 
@@ -26,10 +45,43 @@ function register(req, res) {
         following: []
     });
 
-    user.save().then((doc) => {
-        res.send(doc);
-    }, (e) => {
+    // user.save().then((doc) => {
+    //     res.send(doc);
+    // }, (e) => {
+    //     res.status(400).send(e);
+    // });
+
+    user.save().then(() => {
+        return user.generateAuthToken();
+    }).then((token) => {
+        res.header('x-auth', token).send(user);
+    }).catch((e) => {
         res.status(400).send(e);
+    });
+}
+
+function loginToken(req, res) {
+    var username = req.body.username;
+    var password = req.body.password;
+
+    User.findByCredentials(username, password).then((user) => {
+        return user.generateAuthToken().then((token) => {
+            res.header('x-auth', token).send(user);
+        });
+    }).catch((e) => {
+        res.status(400).send();
+    });
+}
+
+function getMe(req, res) {
+    res.send(req.user);
+}
+
+function deleteToken(req, res) {
+    req.user.removeToken(req.token).then(() => {
+        res.status(200).send();
+    }, () => {
+        res.status(400).send();
     });
 }
 
@@ -184,6 +236,7 @@ function profile(req, res) {
 
 module.exports = {
     login: login,
+    logout: logout,
     register: register,
     profile: profile,
     getAll: getAll,

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 var postCtrl = require('./../controllers/posts.controller');
+var {authenticate} = require('./../middleware/authenticate');
 
 router.get('/fposts', postCtrl.fposts);
 router.post('/newpost', postCtrl.newpost);

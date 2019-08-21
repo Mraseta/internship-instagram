@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NewpostComponent } from '../newpost/newpost.component';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private cookieService: CookieService,
     private router: Router,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private userService: UserService) { }
 
   ngOnInit() {
     
@@ -24,6 +26,11 @@ export class HeaderComponent implements OnInit {
 
   onClick() {
     this.cookieService.delete('loggedUser');
+    this.userService.logout()
+    .subscribe(
+      (data: any) => this.cookieService.delete('token'),
+      (error) => console.log(error)
+    );
     this.router.navigate(['/login']);
   }
 

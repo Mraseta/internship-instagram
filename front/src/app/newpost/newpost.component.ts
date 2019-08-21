@@ -25,24 +25,11 @@ export class NewpostComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.uploadImage().then(() => {
-    //   const imageUrl = `assets/images/${this.name}`;
-    //   console.log(imageUrl);
-
-    //   this.newpostService.newPost(JSON.parse(this.cookieService.get('loggedUser'))._id, imageUrl, this.description)
-    //     .subscribe(
-    //       (data: any) => {this.modalService.dismissAll();},
-    //       (error) => alert(error.text)
-    //     );
-    // });
-
-    
     this.description = this.description.replace(/  +/g, ' ');
     this.description = this.description.replace(/\t/g, ' ');
     this.uploadImage();
 
     const imageUrl = `assets/images/${this.name}`;
-    console.log(imageUrl);
 
       this.postService.newPost(JSON.parse(this.cookieService.get('loggedUser'))._id, imageUrl, this.description)
         .subscribe(
@@ -88,13 +75,11 @@ export class NewpostComponent implements OnInit {
   }
 
   uploadImage = function() {
-    console.log('thisname', this.name);
     // return new Promise((resolve, reject) => {
       this.postService.uploadImage(JSON.parse(this.cookieService.get('loggedUser'))._id, this.base64textString, this.name)
         .subscribe(
           (data: any) => {
 
-            console.log(data);
           }, //resolve();},
           (error) => alert('error')// reject();}
         );

@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     this.userService.postUser(this.username, this.password)
     .subscribe(
       (user: any) => {
-        this.cookieService.set('loggedUser', JSON.stringify(user.user));
+        this.cookieService.set('loggedUser', JSON.stringify(user));
         this.router.navigate(['/']);
       }, (error) => alert(error.text)
     );

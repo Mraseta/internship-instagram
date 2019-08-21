@@ -71,9 +71,6 @@ export class PostService {
   }
 
   uploadImage(id, imageUrl, desc) {
-    console.log(id);
-    console.log(imageUrl);
-    console.log(desc);
     return this.http.post("http://127.0.0.1:3000/posts/upload", {
       loggedid: id,
       base64image: imageUrl,

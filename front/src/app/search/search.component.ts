@@ -32,7 +32,6 @@ export class SearchComponent implements OnInit {
     .subscribe(
       (users) => {
         this.results = Object.assign([], users.ret);
-        console.log('results', this.results);
         this.isLoaded = true;
       }, (error) => console.log(error)
     );

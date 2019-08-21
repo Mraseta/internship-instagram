@@ -13,7 +13,12 @@ const userroute = require('./routes/users');
 const postroute = require('./routes/posts');
 
 var app = express();
-app.use(cors());
+
+var corsOptions = {
+    exposedHeaders: ['x-auth']
+}
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use('/users', userroute);

@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http,
+    private cookieService: CookieService) { }
 
   postUser(username: string, password: string) {
     return this.http.post("http://127.0.0.1:3000/users/login", {
@@ -17,9 +19,22 @@ export class UserService {
     })
     .pipe(
       map((response: Response) => {
+        this.cookieService.set('token', JSON.stringify(response.headers.get('x-auth')));
         const data = response.json();
         return data;
       }),
+      catchError((err: Response) => {
+        return throwError(JSON.parse(err.text()));
+      })
+    )
+  }
+
+  logout() {
+    var headers = new Headers();
+    headers.append('x-auth', JSON.parse(this.cookieService.get('token')));
+
+    return this.http.delete("http://127.0.0.1:3000/users/logout", {headers})
+    .pipe(
       catchError((err: Response) => {
         return throwError(JSON.parse(err.text()));
       })

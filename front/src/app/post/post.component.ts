@@ -26,7 +26,6 @@ export class PostComponent implements OnInit {
 
   ngOnInit() {
     this.getAll();
-    // console.log('created', this.created);
   }
 
   getAll() {
@@ -70,7 +69,6 @@ export class PostComponent implements OnInit {
 
   linkHashtags(desc: string) {
     var words = desc.split(' ');
-    console.log('words', {words});
     words.forEach(element => {
       if (element.charAt(0) === '#') {
         // var tag = element.split('#')[1];

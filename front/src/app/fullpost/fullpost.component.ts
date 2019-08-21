@@ -53,7 +53,6 @@ export class FullpostComponent implements OnInit {
           this.words.forEach(element => {
             this.addSpace(element);
           });
-          console.log('comm', this.comments);
           this.getAuthor();
         }, (error) => console.log(error)
       );
@@ -119,7 +118,7 @@ export class FullpostComponent implements OnInit {
   }
 
   logCommenters() {
-    console.log('commenters', this.commenters);
+    // console.log('commenters', this.commenters);
   }
 
   sendComment() {

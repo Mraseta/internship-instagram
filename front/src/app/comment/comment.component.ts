@@ -31,7 +31,6 @@ export class CommentComponent implements OnInit {
           this.username = user.username;
           this.text = this.comment.text;
           this.isLoaded = true;
-          console.log('author', this.author);
         }, (error) => console.log(error)
       );
   }

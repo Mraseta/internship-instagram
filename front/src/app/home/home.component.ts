@@ -17,7 +17,6 @@ export class HomeComponent implements OnInit {
     private postService: PostService) { }
 
   ngOnInit() {
-    // console.log(this.router.url);
     if (!this.cookieService.get('loggedUser')) {
       this.router.navigate(['/login']);
     }
