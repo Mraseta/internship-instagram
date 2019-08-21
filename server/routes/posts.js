@@ -4,11 +4,11 @@ const router = express.Router();
 var postCtrl = require('./../controllers/posts.controller');
 var {authenticate} = require('./../middleware/authenticate');
 
-router.get('/fposts', postCtrl.fposts);
-router.post('/newpost', postCtrl.newpost);
+router.get('/fposts', authenticate, postCtrl.fposts);
+router.post('/newpost', authenticate, postCtrl.newpost);
 router.get('/post', postCtrl.getPost);
-router.post('/comment', postCtrl.comment);
-router.post('/upload', postCtrl.uploadImage);
+router.post('/comment', authenticate, postCtrl.comment);
+router.post('/upload', authenticate, postCtrl.uploadImage);
 router.get('/search', postCtrl.searchByDesc);
 
 module.exports = router;

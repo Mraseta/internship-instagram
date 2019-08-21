@@ -133,7 +133,7 @@ function search(req, res) {
 
 function changeFollowing(req, res) {
     var id = req.body.id;
-    var loggedid = req.body.loggedid;
+    var loggedid = req.user._id;
     var foll = req.body.following;
 
     if (!foll) {
@@ -174,7 +174,7 @@ function changeFollowing(req, res) {
 
 function profile(req, res) {
     var username = req.query.username;
-    var loggedid = req.query.loggedid;
+    var loggedid = req.user._id;
 
     var founduser = null;
 

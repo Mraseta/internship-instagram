@@ -41,8 +41,11 @@ export class UserService {
     )
   }
 
-  getInfo(username: string, loggedid: string) {
-    return this.http.get("http://127.0.0.1:3000/users/profile?username="+username+'&loggedid='+loggedid)
+  getInfo(username: string) {
+    var headers = new Headers();
+    headers.append('x-auth', JSON.parse(this.cookieService.get('token')));
+
+    return this.http.get("http://127.0.0.1:3000/users/profile?username="+username, {headers})
     .pipe(
       map((response: Response) => {
         const data = response.json();
@@ -100,11 +103,13 @@ export class UserService {
   }
 
   changeFollowing(id, loggedid, following) {
+    var headers = new Headers();
+    headers.append('x-auth', JSON.parse(this.cookieService.get('token')));
+
     return this.http.patch("http://127.0.0.1:3000/users/change", {
       id: id,
-      loggedid: loggedid,
       following: following
-    })
+    }, {headers})
     .pipe(
       map((response: Response) => {
         const data = response.json();

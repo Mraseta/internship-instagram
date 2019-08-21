@@ -5,7 +5,8 @@ const fs = require('fs');
 const path = require('path');
 
 function fposts(req, res) {
-    var id = req.query.loggedid;
+    var id = req.user._id;
+    console.log(id);
 
     User.findById(id).then((loggedUser) => {
         var following = loggedUser.following;
@@ -26,7 +27,7 @@ function fposts(req, res) {
 }
 
 function newpost(req, res) {
-    var id = req.body.id;
+    var id = req.user._id;
 
     var post = new Post({
         userId: id,
@@ -44,7 +45,7 @@ function newpost(req, res) {
 }
 
 function uploadImage(req, res) {
-    var loggedid = req.body.loggedid;
+    var loggedid = req.user._id;
     var base64image = req.body.base64image;
     var imageName = req.body.name;
 
@@ -52,7 +53,10 @@ function uploadImage(req, res) {
         return res.status(404).send({text: 'Invalid user id'});
     }
 
-    const savePath = path.join(__dirname, `../../front/src/assets/images/${imageName}`);
+    var savePath = path.join(__dirname, `../../front/dist/front/assets/images/${imageName}`);
+    fs.writeFileSync(savePath, base64image, 'base64');
+
+    savePath = path.join(__dirname, `../../front/src/assets/images/${imageName}`);
     fs.writeFileSync(savePath, base64image, 'base64');
     res.status(200).send({text: 'upload'});
 }
@@ -77,7 +81,7 @@ function getPost(req, res) {
 
 function comment(req, res) {
     var postid = req.body.post;
-    var loggedid = req.body.loggedid;
+    var loggedid = req.user._id;
 
     User.findById(loggedid).then((loggedUser) => {
         if (!loggedUser) {

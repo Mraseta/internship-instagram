@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
   }
 
   loadInfo() {
-    this.userService.getInfo(this.username, this.loggedid)
+    this.userService.getInfo(this.username)
       .subscribe(
         (info) => {
           this.user = info.user;
