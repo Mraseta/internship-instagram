@@ -19,6 +19,7 @@ import { SearchComponent } from './search/search.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NewpostComponent } from './newpost/newpost.component';
 import { SearchpostsComponent } from './searchposts/searchposts.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 const appRoutes: Routes = [
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
   { path: 'post', component: FullpostComponent},
   { path: 'search', component: SearchComponent},
   { path: 'profile', component: ProfileComponent},
-  { path: 'searchposts', component: SearchpostsComponent}
+  { path: 'searchposts', component: SearchpostsComponent},
+  { path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({
@@ -44,6 +46,7 @@ const appRoutes: Routes = [
     ProfileComponent,
     NewpostComponent,
     SearchpostsComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
